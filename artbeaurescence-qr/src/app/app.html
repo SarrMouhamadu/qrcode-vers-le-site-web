@@ -1,0 +1,74 @@
+<header class="topbar enter-down">
+  <div class="brand">
+    <div class="dot pulse"></div>
+    <span>Art'Beau-Rescence — Générateur de QR</span>
+  </div>
+  <div class="hint">Colle un lien → Génère → Télécharge</div>
+</header>
+
+<main class="page">
+  <section class="card enter-up">
+    <div class="row two">
+      <label class="field">
+        <span>Lien à convertir</span>
+        <input
+          type="url"
+          [(ngModel)]="url"
+          placeholder="https://artbeaurescence.sn/ai-karangue"
+        />
+      </label>
+
+      <div class="field compact">
+        <span>Marge (quiet zone)</span>
+        <input
+          type="number"
+          [ngModel]="quietZone"
+          (ngModelChange)="quietZone = toNumber($event)"
+          min="0" max="8"
+        />
+      </div>
+    </div>
+
+    <div class="row three">
+      <label class="checkbox">
+        <input type="checkbox" [(ngModel)]="withLogo" />
+        <span>Ajouter le logo centré</span>
+      </label>
+
+      <label class="field compact">
+        <span>Dégradé haut</span>
+        <input type="color" [(ngModel)]="gradientTop" />
+      </label>
+
+      <label class="field compact">
+        <span>Dégradé bas</span>
+        <input type="color" [(ngModel)]="gradientBottom" />
+      </label>
+    </div>
+
+    <div class="actions">
+      <button class="primary big glow" (click)="generate()">
+        Générer le QR
+      </button>
+    </div>
+  </section>
+
+  <section class="preview card enter-up delay-1">
+    <div class="preview-inner" *ngIf="qrDataUrl; else empty">
+      <img class="pop" [src]="qrDataUrl" alt="QR Code généré" />
+
+      <div class="dl-group">
+        <button class="ghost" (click)="downloadPNG()">Télécharger PNG</button>
+        <button class="ghost" (click)="downloadJPEG()">Télécharger JPEG</button>
+        <button class="ghost" (click)="downloadPDF()">Télécharger PDF</button>
+      </div>
+    </div>
+
+    <ng-template #empty>
+      <div class="empty">
+        <div class="ghost-rect shimmer"></div>
+        <p>Renseigne un lien puis clique sur <strong>Générer le QR</strong>.</p>
+      </div>
+    </ng-template>
+  </section>
+</main>
